@@ -18,6 +18,8 @@ struct MainPlayerView: View {
     var maximumSlider:CGFloat = UIScreen.main.bounds.width - 30
     var minimumSlider:CGFloat = 0
     @State var isPause: Bool = false
+    var timerForText = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State var currentTime = 0
     
     @Environment(\.presentationMode) var presentation
     
@@ -131,6 +133,7 @@ struct MainPlayerView: View {
                 Button {
                     musicPlayer.skipToPreviousItem()
                     self.song = songs[musicPlayer.indexOfNowPlayingItem]
+                    currentTime = 0
                 } label: {
                     Image(systemName: "backward.fill")
                         .font(.system(size: 14, weight:.bold))
@@ -157,6 +160,7 @@ struct MainPlayerView: View {
                 Button {
                     musicPlayer.skipToNextItem()
                     self.song = songs[musicPlayer.indexOfNowPlayingItem]
+                    currentTime = 0
                 } label: {
                     Image(systemName: "forward.fill")
                         .font(.system(size: 14, weight:.bold))
@@ -190,6 +194,15 @@ struct MainPlayerView: View {
                 self.musicPlayer.play()
             }
             
+        }
+        .onReceive(timerForText) { _ in
+            if let song = song,
+               let duration = song.attributes.durationInMillis {
+                currentTime += 1
+                value = maximumSlider * CGFloat(currentTime) / CGFloat(duration/1000)
+            }
+            
+            print(currentTime)
         }
     }
 }
