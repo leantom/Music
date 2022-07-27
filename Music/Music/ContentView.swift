@@ -6,165 +6,159 @@
 //
 
 import SwiftUI
+import MediaPlayer
 
-struct ContentView: View {
-    
-    @State var value: CGFloat = 50
-    var maximumSlider:CGFloat = UIScreen.main.bounds.width - 30
-    var minimumSlider:CGFloat = 0
+struct SongView: View {
+    @State var item: Datum
+    var widthScreen = UIScreen.main.bounds.width
+    var heightScreen = UIScreen.main.bounds.height
     
     var body: some View {
         VStack {
-            ZStack {
-                HStack {
-                    Button {
-                        
-                    } label: {
-                        Image(systemName: "arrow.left")
-                            .font(.system(size: 14, weight: .bold))
-                            .foregroundColor(.gray)
-                            .padding(.all)
-                            .background(Color("GrayButton"))
-                            .clipShape(Circle())
-                            .shadow(color: Color("BlueButton").opacity(0.3), radius: 5, x: 5, y: 5)
-                            .shadow(color: Color.white, radius: 5, x: -5, y: -5)
-                        
-                    }
-                    Spacer()
-                    
-                    Button {
-                        
-                    } label: {
-                        Image(systemName: "line.horizontal.3.decrease")
-                            .font(.system(size: 14, weight: .bold))
-                            .foregroundColor(.gray)
-                            .padding(.all)
-                            .background(Color("GrayButton"))
-                            .clipShape(Circle())
-                            .shadow(color: Color("BlueButton").opacity(0.3), radius: 5, x: 5, y: 5)
-                            .shadow(color: Color.white, radius: 5, x: -5, y: -5)
-                        
-                    }
-                }
-                Text("Now Playing")
-                    .fontWeight(.bold)
-                    .foregroundColor(.gray)
-            }
             
-            Image("background")
-                .resizable()
+            AsyncImage(url: item.attributes.getURLArtWork())
+                .frame(width: widthScreen - 50, height: 150)
                 .aspectRatio(contentMode: .fit)
-                .padding(.horizontal, 10)
-                .clipShape(Circle())
-                .padding(.all, 8)
-                .background(Color("GrayButton").opacity(0.6))
-                .clipShape(Circle())
+                .clipShape(Rectangle())
+                .cornerRadius(10)
                 .shadow(color: Color.black.opacity(0.3), radius: 8, x: 8, y: 8)
-                .shadow(color: Color.white, radius: 10, x: -10, y: -10)
-                .padding(.top, 35)
-            
-            Text("Lose it")
-                .font(.title)
-                .fontWeight(.bold)
-                .foregroundColor(.gray)
-                .padding(.top, 25)
-            
-            Text("Flume ft Vic monica")
-                .font(.caption)
-                .fontWeight(.bold)
-                .foregroundColor(.gray)
-            
-            HStack() {
-                Text("1:12")
-                    .font(.caption2)
-                    .fontWeight(.bold)
-                    .foregroundColor(.gray)
-                    .padding(.top, 25)
-                Spacer()
-                Text("4:22")
-                    .font(.caption2)
-                    .fontWeight(.bold)
-                    .foregroundColor(.gray)
-                    .padding(.top, 25)
-            }
-            
-            ZStack(alignment: Alignment(horizontal: .leading, vertical: .center)) {
-                Capsule()
-                    .fill(Color.gray.opacity(0.2))
-                    .frame(height: 6)
-                ZStack(alignment: Alignment(horizontal: .trailing, vertical: .center)) {
-                    Capsule()
-                        .fill(Color("BlueButton").opacity(0.6))
-                        .frame(width:value, height: 6)
-                    Circle()
-                        .fill(Color("BlueButton").opacity(0.7))
-                        .frame(width: 10, height: 10)
-                        .padding(.all, 10)
-                        .background(Color("GrayButton"))
-                        .clipShape(Circle())
-                        .shadow(color: Color.black.opacity(0.4), radius: 10, x: 5, y: 5)
-                    
-                    
-                }
-                .gesture(DragGesture().onChanged({ value in
-                    // MARK: limit
-                    if value.location.x < maximumSlider && value.location.x > minimumSlider {
-                        self.value = value.location.x
-                    }
-                    
-                }))
-            }
-            
-            HStack(spacing: 25) {
-                Button {
-                    
-                } label: {
-                    Image(systemName: "backward.fill")
-                        .font(.system(size: 14, weight:.bold))
-                        .foregroundColor(.gray)
-                        .padding(.all, 25)
-                        .background(Color("GrayButton"))
-                        .clipShape(Circle())
-                        .shadow(color: Color("BlueButton").opacity(0.4), radius: 10, x: 5, y: 5)
-                        .shadow(color: Color.white, radius: 5, x: -5, y: -5)
-                }
-                Button {
-                    
-                } label: {
-                    Image(systemName: "pause.fill")
-                        .font(.system(size: 14, weight:.bold))
-                        .foregroundColor(.white)
-                        .padding(.all, 25)
-                        .background(Color("BlueButton"))
-                        .clipShape(Circle())
-                        .shadow(color: Color("BlueButton").opacity(0.4), radius: 10, x: 5, y: 5)
-                        .shadow(color: Color.white, radius: 5, x: -5, y: -5)
-                }
-                Button {
-                    
-                } label: {
-                    Image(systemName: "forward.fill")
-                        .font(.system(size: 14, weight:.bold))
-                        .foregroundColor(.gray)
-                        .padding(.all, 25)
-                        .background(Color("GrayButton"))
-                        .clipShape(Circle())
-                        .shadow(color: Color("BlueButton").opacity(0.4), radius: 10, x: 5, y: 5)
-                        .shadow(color: Color.white, radius: 5, x: -5, y: -5)
-                }
-            }
-            .padding(.top, 30)
-            
-            Spacer()
+                .padding(.bottom, 10)
+            Text(item.attributes.artistName ?? "")
+                .font(.title2)
+                .foregroundColor(.white)
+                .frame(width: 200, alignment: .center)
+                .lineLimit(1)
+                
         }
-        .padding(.all)
-        .background(Color("GrayButton")).edgesIgnoringSafeArea(.all)
-        
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+struct ContentView: View {
+    @State var isShowPlayer: Bool = false
+    
+    @State var chartSongs: [Datum] = []
+    @State var albums: [Datum] = []
+    @State var genres: [GenresModel.Datum] = []
+    
+    @State private var searchText = ""
+    var network = Network()
+    @State private var shouldShowPlayer = false
+    @State var musicPlayer = MPMusicPlayerController.applicationMusicPlayer
+    let columns = [
+        GridItem(.fixed(200))
+    ]
+    
+    // call api -> 
+    var body: some View {
+        NavigationView {
+            ScrollView(.vertical) {
+                VStack {
+                    HStack() {
+                        Text("Top Chart Songs")
+                            .font(.caption)
+                            .padding(.all)
+                        Spacer()
+                    }
+                    ScrollView(.horizontal) {
+                        LazyHGrid(rows: columns, spacing: 10) {
+                            ForEach(chartSongs, id: \.self) { item in
+                                NavigationLink {
+                                    MainPlayerView(song: item, songs: chartSongs)
+                                        .navigationBarHidden(true)
+                                } label: {
+                                    SongView(item: item)
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                VStack {
+                    HStack() {
+                        Text("Albums")
+                            .font(.caption)
+                            .padding(.all)
+                        Spacer()
+                    }
+                    ScrollView(.horizontal) {
+                        LazyHGrid(rows: columns, spacing: 40) {
+                            ForEach(albums, id: \.self) { item in
+                                NavigationLink {
+                                    MainPlayerView(song: item, songs: albums)
+                                        .navigationBarHidden(true)
+                                   
+                                } label: {
+                                    ZStack(alignment: .center) {
+                                        AsyncImage(url: item.attributes.getURLArtWork())
+                                            .frame(width: 150, height: 150)
+                                            .aspectRatio(contentMode: .fit)
+                                            .clipShape(Rectangle())
+                                            .cornerRadius(10)
+                                            .shadow(color: Color.black.opacity(0.3), radius: 8, x: 8, y: 8)
+                                            .padding(.bottom, 10)
+                                        
+                                        Text(item.attributes.artistName ?? "")
+                                            .font(.caption)
+                                            .foregroundColor(.white)
+                                            .frame(width: 100, alignment: .center)
+                                            .lineLimit(2)
+                                        
+                                    }
+                                    
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                VStack {
+                    HStack() {
+                        Text("Genres")
+                            .font(.caption)
+                            .padding(.all)
+                        Spacer()
+                    }
+                    ScrollView(.horizontal) {
+                        LazyHGrid(rows: columns, spacing: 40) {
+                            ForEach(genres) { item in
+                                Text(item.attributes.name)
+                                    .font(.caption)
+                                    .foregroundColor(.white)
+                                    .frame(width: 100, height: 100, alignment: .center)
+                                    .lineLimit(2)
+                                    .background(Color.black)
+                                    .shadow(color: Color.black.opacity(0.3), radius: 8, x: 8, y: 8)
+                                    .shadow(color: Color.white, radius: 10, x: -10, y: -10)
+                                    .cornerRadius(5)
+                                    
+                                
+                            }
+                        }
+                    }
+                    
+                    
+                }
+                
+            }
+            .padding(.top, 15)
+            .navigationBarHidden(true)
+        }
+        .onAppear {
+            Task {
+                
+                if let data = try await network.start() {
+                    for item in data.songs {
+                        chartSongs.append(contentsOf: item.data)
+                    }
+                    albums = data.albums[0].data
+                    
+                    genres = try await network.getGenres()
+                    
+                }
+                
+            }
+        }
     }
 }
+

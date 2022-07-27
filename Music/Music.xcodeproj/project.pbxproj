@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F90A987F286CC54C009E391C /* MainPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90A987E286CC54C009E391C /* MainPlayerView.swift */; };
+		F91C2F5A2868DEDB00D1DADE /* ConnectAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91C2F592868DEDB00D1DADE /* ConnectAPI.swift */; };
+		F937D84F28808ED200E330F0 /* ChartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F937D84E28808ED200E330F0 /* ChartModel.swift */; };
+		F95C8B25288348130010EA2E /* PlaylistModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95C8B24288348130010EA2E /* PlaylistModel.swift */; };
+		F992712A287DE079008E8F8F /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9927129287DE079008E8F8F /* Extension.swift */; };
 		F9A361772868CB5F00B6BD78 /* MusicApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A361762868CB5F00B6BD78 /* MusicApp.swift */; };
 		F9A361792868CB5F00B6BD78 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A361782868CB5F00B6BD78 /* ContentView.swift */; };
 		F9A3617B2868CB5F00B6BD78 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F9A3617A2868CB5F00B6BD78 /* Assets.xcassets */; };
@@ -14,6 +19,8 @@
 		F9A361882868CB6000B6BD78 /* MusicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A361872868CB6000B6BD78 /* MusicTests.swift */; };
 		F9A361922868CB6000B6BD78 /* MusicUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A361912868CB6000B6BD78 /* MusicUITests.swift */; };
 		F9A361942868CB6000B6BD78 /* MusicUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A361932868CB6000B6BD78 /* MusicUITestsLaunchTests.swift */; };
+		F9E00D4F28760C2200573706 /* CatalogModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E00D4E28760C2200573706 /* CatalogModel.swift */; };
+		F9F8C66528840CEE009A38FA /* Genres.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9F8C66428840CEE009A38FA /* Genres.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,7 +41,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		F9A361732868CB5F00B6BD78 /* Music.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Music.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F90A987E286CC54C009E391C /* MainPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPlayerView.swift; sourceTree = "<group>"; };
+		F91C2F592868DEDB00D1DADE /* ConnectAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectAPI.swift; sourceTree = "<group>"; };
+		F937D84E28808ED200E330F0 /* ChartModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartModel.swift; sourceTree = "<group>"; };
+		F95C8B24288348130010EA2E /* PlaylistModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistModel.swift; sourceTree = "<group>"; };
+		F9927129287DE079008E8F8F /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		F9A361732868CB5F00B6BD78 /* CIME.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CIME.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9A361762868CB5F00B6BD78 /* MusicApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicApp.swift; sourceTree = "<group>"; };
 		F9A361782868CB5F00B6BD78 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F9A3617A2868CB5F00B6BD78 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -44,6 +56,8 @@
 		F9A3618D2868CB6000B6BD78 /* MusicUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusicUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9A361912868CB6000B6BD78 /* MusicUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicUITests.swift; sourceTree = "<group>"; };
 		F9A361932868CB6000B6BD78 /* MusicUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		F9E00D4E28760C2200573706 /* CatalogModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogModel.swift; sourceTree = "<group>"; };
+		F9F8C66428840CEE009A38FA /* Genres.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genres.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +98,7 @@
 		F9A361742868CB5F00B6BD78 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F9A361732868CB5F00B6BD78 /* Music.app */,
+				F9A361732868CB5F00B6BD78 /* CIME.app */,
 				F9A361832868CB6000B6BD78 /* MusicTests.xctest */,
 				F9A3618D2868CB6000B6BD78 /* MusicUITests.xctest */,
 			);
@@ -96,6 +110,13 @@
 			children = (
 				F9A361762868CB5F00B6BD78 /* MusicApp.swift */,
 				F9A361782868CB5F00B6BD78 /* ContentView.swift */,
+				F90A987E286CC54C009E391C /* MainPlayerView.swift */,
+				F91C2F592868DEDB00D1DADE /* ConnectAPI.swift */,
+				F9927129287DE079008E8F8F /* Extension.swift */,
+				F9E00D4E28760C2200573706 /* CatalogModel.swift */,
+				F937D84E28808ED200E330F0 /* ChartModel.swift */,
+				F95C8B24288348130010EA2E /* PlaylistModel.swift */,
+				F9F8C66428840CEE009A38FA /* Genres.swift */,
 				F9A3617A2868CB5F00B6BD78 /* Assets.xcassets */,
 				F9A3617C2868CB5F00B6BD78 /* Preview Content */,
 			);
@@ -144,7 +165,7 @@
 			);
 			name = Music;
 			productName = Music;
-			productReference = F9A361732868CB5F00B6BD78 /* Music.app */;
+			productReference = F9A361732868CB5F00B6BD78 /* CIME.app */;
 			productType = "com.apple.product-type.application";
 		};
 		F9A361822868CB6000B6BD78 /* MusicTests */ = {
@@ -257,8 +278,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9F8C66528840CEE009A38FA /* Genres.swift in Sources */,
+				F90A987F286CC54C009E391C /* MainPlayerView.swift in Sources */,
+				F95C8B25288348130010EA2E /* PlaylistModel.swift in Sources */,
 				F9A361792868CB5F00B6BD78 /* ContentView.swift in Sources */,
+				F91C2F5A2868DEDB00D1DADE /* ConnectAPI.swift in Sources */,
+				F937D84F28808ED200E330F0 /* ChartModel.swift in Sources */,
+				F992712A287DE079008E8F8F /* Extension.swift in Sources */,
 				F9A361772868CB5F00B6BD78 /* MusicApp.swift in Sources */,
+				F9E00D4F28760C2200573706 /* CatalogModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,6 +448,7 @@
 				DEVELOPMENT_TEAM = 978PK4NZFL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "The app need to improve workout";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -430,11 +459,11 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = vn.wee.Music;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = vn.wee.musickit;
+				PRODUCT_NAME = CIME;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -449,6 +478,7 @@
 				DEVELOPMENT_TEAM = 978PK4NZFL;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "The app need to improve workout";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -459,11 +489,11 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = vn.wee.Music;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = vn.wee.musickit;
+				PRODUCT_NAME = CIME;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
