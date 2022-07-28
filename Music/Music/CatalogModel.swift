@@ -24,7 +24,7 @@ struct Songs: Codable {
 }
 
 // MARK: - Datum
-struct Datum: Codable, Hashable {
+struct Datum: Codable, Hashable, Identifiable {
     static func == (lhs: Datum, rhs: Datum) -> Bool {
         return lhs.href == rhs.href
     }

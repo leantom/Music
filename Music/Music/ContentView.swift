@@ -43,6 +43,8 @@ struct ContentView: View {
     @State private var searchText = ""
     var network = Network()
     @State private var shouldShowPlayer = false
+    @State private var isFinishedLoadData = false
+    
     @State var musicPlayer = MPMusicPlayerController.applicationMusicPlayer
     let columns = [
         GridItem(.fixed(200))
@@ -67,6 +69,7 @@ struct ContentView: View {
                                         .navigationBarHidden(true)
                                 } label: {
                                     SongView(item: item)
+                                        .scaleEffect()
                                 }
                             }
                         }
@@ -119,23 +122,27 @@ struct ContentView: View {
                             .padding(.all)
                         Spacer()
                     }
-                    ScrollView(.horizontal) {
-                        LazyHGrid(rows: columns, spacing: 40) {
-                            ForEach(genres) { item in
-                                Text(item.attributes.name)
-                                    .font(.caption)
-                                    .foregroundColor(.white)
-                                    .frame(width: 100, height: 100, alignment: .center)
-                                    .lineLimit(2)
-                                    .background(Color.black)
-                                    .shadow(color: Color.black.opacity(0.3), radius: 8, x: 8, y: 8)
-                                    .shadow(color: Color.white, radius: 10, x: -10, y: -10)
-                                    .cornerRadius(5)
-                                    
-                                
-                            }
-                        }
+                    if isFinishedLoadData {
+                        CarouselView(songs: $chartSongs, widthItem: UIScreen.main.bounds.width - 80)
                     }
+                    
+                    
+                    
+//                    ScrollView(.horizontal) {
+//                        LazyHGrid(rows: columns, spacing: 40) {
+//                            ForEach(genres) { item in
+//                                Text(item.attributes.name)
+//                                    .font(.caption)
+//                                    .foregroundColor(.white)
+//                                    .frame(width: 100, height: 100, alignment: .center)
+//                                    .lineLimit(2)
+//                                    .background(Color.black)
+//                                    .shadow(color: Color.black.opacity(0.3), radius: 8, x: 8, y: 8)
+//                                    .shadow(color: Color.white, radius: 10, x: -10, y: -10)
+//                                    .cornerRadius(5)
+//                            }
+//                        }
+//                    }
                     
                     
                 }
@@ -154,7 +161,7 @@ struct ContentView: View {
                     albums = data.albums[0].data
                     
                     genres = try await network.getGenres()
-                    
+                    isFinishedLoadData.toggle()
                 }
                 
             }

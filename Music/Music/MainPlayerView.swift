@@ -18,7 +18,12 @@ struct MainPlayerView: View {
     var maximumSlider:CGFloat = UIScreen.main.bounds.width - 30
     var minimumSlider:CGFloat = 0
     @State var isPause: Bool = false
-    var timerForText = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State var timerForText = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
+    let pub =  NotificationCenter.default
+        .publisher(for: NSNotification.Name.MPMusicPlayerControllerNowPlayingItemDidChange)
+    
+    
     @State var currentTime = 0
     
     @Environment(\.presentationMode) var presentation
@@ -85,7 +90,7 @@ struct MainPlayerView: View {
                 .foregroundColor(.gray)
             
             HStack() {
-                Text("00:00")
+                Text(currentTime.formatTimerCoundownForMins())
                     .font(.caption2)
                     .fontWeight(.bold)
                     .foregroundColor(.gray)
@@ -122,7 +127,7 @@ struct MainPlayerView: View {
                         if let song = song {
                             let percent = Double(self.value/maximumSlider) * 100
 //                            let timeCurrent = percent * Double(song.attributes.durationInMillis)
-                            print(musicPlayer.currentPlaybackTime)
+                            
 //                            musicPlayer.currentPlaybackTime = TimeInterval(timeCurrent)
                         }
                     }
@@ -132,7 +137,6 @@ struct MainPlayerView: View {
             HStack(spacing: 25) {
                 Button {
                     musicPlayer.skipToPreviousItem()
-                    self.song = songs[musicPlayer.indexOfNowPlayingItem]
                     currentTime = 0
                 } label: {
                     Image(systemName: "backward.fill")
@@ -147,6 +151,11 @@ struct MainPlayerView: View {
                 Button {
                     isPause.toggle()
                     isPause ? musicPlayer.pause() : musicPlayer.play()
+                    if isPause {
+                        timerForText.upstream.connect().cancel()
+                    } else {
+                        timerForText = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+                    }
                 } label: {
                     Image(systemName: isPause ? "play.fill" : "pause.fill")
                         .font(.system(size: 14, weight:.bold))
@@ -159,7 +168,6 @@ struct MainPlayerView: View {
                 }
                 Button {
                     musicPlayer.skipToNextItem()
-                    self.song = songs[musicPlayer.indexOfNowPlayingItem]
                     currentTime = 0
                 } label: {
                     Image(systemName: "forward.fill")
@@ -193,7 +201,6 @@ struct MainPlayerView: View {
                 self.musicPlayer.prepareToPlay()
                 self.musicPlayer.play()
             }
-            
         }
         .onReceive(timerForText) { _ in
             if let song = song,
@@ -204,7 +211,15 @@ struct MainPlayerView: View {
             
             print(currentTime)
         }
+        .onReceive(pub) { noti in
+            changeItemMusic()
+        }
     }
+    
+    func changeItemMusic() {
+        self.song = songs[musicPlayer.indexOfNowPlayingItem]
+    }
+    
 }
 
 struct MainPlayerView_Previews: PreviewProvider {

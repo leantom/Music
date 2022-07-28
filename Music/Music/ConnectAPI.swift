@@ -20,7 +20,7 @@ class Network: NSObject {
     
     
     
-    static let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6IlA1Mjc4UFY3MjQifQ.eyJpc3MiOiI5NzhQSzROWkZMIiwiZXhwIjoxNjU4OTgxMTYyLCJpYXQiOjE2NTg5Mzc5NjJ9.KLyzygaMbEClc-jezW01L5JFZ0DfmwuEILajP3eWzzQO5epIep_aMg4cPY_CcPC-Kz2bFJ8weHC0OMtZ1sWSOw"
+    static let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6IlA1Mjc4UFY3MjQifQ.eyJpc3MiOiI5NzhQSzROWkZMIiwiZXhwIjoxNjU5MDY4NTk3LCJpYXQiOjE2NTkwMjUzOTd9.QrqqANcm6zAZapGe9ir0j22mzaF1orCKDYN6kp6xmQ-s10g46j5sTf5A8f2X6mCLaioT1PsiLewfj55jajOieA"
     
     func start() async throws -> ChartResults? {
         
