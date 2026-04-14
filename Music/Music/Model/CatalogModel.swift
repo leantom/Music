@@ -34,6 +34,13 @@ struct Datum: Codable, Hashable, Identifiable {
     
     let id, type, href: String
     let attributes: Attributes
+    
+    init(songAlbum: AlbumModel.ArtistsDatum) {
+        self.id = songAlbum.id
+        self.type = songAlbum.type
+        self.href = songAlbum.href
+        self.attributes = songAlbum.attributes!
+    }
 }
 
 // MARK: - Attributes
@@ -50,7 +57,7 @@ struct Attributes: Codable {
     let name, isrc: String?
     let hasLyrics: Bool?
     let albumName: String?
-    let playParams: PlayParams
+    let playParams: PlayParams?
     let trackNumber: Int?
     let composerName: String?
     let contentRating: String?

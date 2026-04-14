@@ -30,42 +30,8 @@ struct MainPlayerView: View {
     
     var body: some View {
         VStack {
-            ZStack {
-                HStack {
-                    Button {
-                        self.presentation.wrappedValue.dismiss()
-                    } label: {
-                        Image(systemName: "arrow.left")
-                            .font(.system(size: 14, weight: .bold))
-                            .foregroundColor(.gray)
-                            .padding(.all)
-                            .background(Color("GrayButton"))
-                            .clipShape(Circle())
-                            .shadow(color: Color("BlueButton").opacity(0.3), radius: 5, x: 5, y: 5)
-                            .shadow(color: Color.white, radius: 5, x: -5, y: -5)
-                        
-                    }
-                    Spacer()
-                    
-                    Button {
-                        
-                    } label: {
-                        Image(systemName: "line.horizontal.3.decrease")
-                            .font(.system(size: 14, weight: .bold))
-                            .foregroundColor(.gray)
-                            .padding(.all)
-                            .background(Color("GrayButton"))
-                            .clipShape(Circle())
-                            .shadow(color: Color("BlueButton").opacity(0.3), radius: 5, x: 5, y: 5)
-                            .shadow(color: Color.white, radius: 5, x: -5, y: -5)
-                        
-                    }
-                }
-                Text("Now Playing")
-                    .fontWeight(.bold)
-                    .foregroundColor(.gray)
-            }
-            
+            HeaderView(presentation: _presentation)
+         
             Image("background")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -137,6 +103,7 @@ struct MainPlayerView: View {
             HStack(spacing: 25) {
                 Button {
                     musicPlayer.skipToPreviousItem()
+                    self.song = songs[musicPlayer.indexOfNowPlayingItem]
                     currentTime = 0
                 } label: {
                     Image(systemName: "backward.fill")
@@ -168,6 +135,7 @@ struct MainPlayerView: View {
                 }
                 Button {
                     musicPlayer.skipToNextItem()
+                    self.song = songs[musicPlayer.indexOfNowPlayingItem]
                     currentTime = 0
                 } label: {
                     Image(systemName: "forward.fill")
@@ -198,8 +166,10 @@ struct MainPlayerView: View {
                 
                 self.musicPlayer.setQueue(with: ids)
                 
-                self.musicPlayer.prepareToPlay()
-                self.musicPlayer.play()
+                DispatchQueue.main.async {
+                    self.musicPlayer.play()
+                }
+                
             }
         }
         .onReceive(timerForText) { _ in
@@ -207,12 +177,16 @@ struct MainPlayerView: View {
                let duration = song.attributes.durationInMillis {
                 currentTime += 1
                 value = maximumSlider * CGFloat(currentTime) / CGFloat(duration/1000)
+                if value > maximumSlider {
+                    currentTime = 0
+                }
             }
-            
-            print(currentTime)
         }
         .onReceive(pub) { noti in
-            changeItemMusic()
+            //changeItemMusic()
+        }
+        .onDisappear {
+            NotificationCenter.default.removeObserver(pub)
         }
     }
     

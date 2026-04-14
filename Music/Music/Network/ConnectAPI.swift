@@ -11,16 +11,16 @@ import MusicKit
 
 enum TypeSectionHome: String {
     case chart = "chart"
-    case album = "album"
+    case artist = "artist"
     case playlist = "playlist"
     case genres = "genres"
+    case album = "album"
+    case search = "search"
 }
 
 class Network: NSObject {
     
-    
-    
-    static let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6IlA1Mjc4UFY3MjQifQ.eyJpc3MiOiI5NzhQSzROWkZMIiwiZXhwIjoxNjU5MDY4NTk3LCJpYXQiOjE2NTkwMjUzOTd9.QrqqANcm6zAZapGe9ir0j22mzaF1orCKDYN6kp6xmQ-s10g46j5sTf5A8f2X6mCLaioT1PsiLewfj55jajOieA"
+    static let token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiIsImtpZCI6IlA1Mjc4UFY3MjQifQ.eyJpc3MiOiI5NzhQSzROWkZMIiwiZXhwIjoxNjYxNDg0NDk0LCJpYXQiOjE2NjE0NDEyOTR9.CBR2gFMKu2WAUQnXlOgLKZ-OIrk61Bx_7iHGxfbyZ8xndaRpgt1P1GgxPnsKS8wzdhMGdzNt5rq1fZxSfj1pmQ"
     
     func start() async throws -> ChartResults? {
         
@@ -39,7 +39,6 @@ class Network: NSObject {
     
     func enableAppleMusicBasedFeatures() async throws -> ChartResults? {
         let controller = SKCloudServiceController()
-        
         let error = try await controller.requestUserToken(forDeveloperToken: Network.token)
         if error.isEmpty == false {
             return try await getDataHome(type: .chart)
@@ -47,11 +46,9 @@ class Network: NSObject {
         return nil
     }
     
-    func getAlbum() {
-        
-    }
     
     func getGenres() async throws -> [GenresModel.Datum] {
+        
         guard let data = try await getData(type: .genres) else {return []}
         
         do {
@@ -60,8 +57,7 @@ class Network: NSObject {
             print(welcome.data.count)
             return welcome.data
             
-            
-        }catch let DecodingError.dataCorrupted(context) {
+        } catch let DecodingError.dataCorrupted(context) {
             print("corrupted data \(context)")
             
             
@@ -95,12 +91,15 @@ class Network: NSObject {
         switch type {
         case .chart:
             components.path   = "/v1/catalog/\(countryCode)/charts"
-        case .album:
-            components.path   = "/v1/catalog/\(countryCode)/album"
+        case .artist:
+            components.path   = "/v1/catalog/vn/artists?ids=1492507625,320647796,705007874,320110262,384038714,320680503,1156866299,1065981054,159260351,890403665"
         case .playlist:
             components.path   = "/v1/catalog/\(countryCode)/playlists"
         case .genres:
             components.path   = "/v1/catalog/\(countryCode)/genres"
+        case .album:
+            components.path   = "/v1/catalog/us/albums"
+        default:break
         }
         
         if type == .chart {
@@ -196,7 +195,7 @@ class Network: NSObject {
         return nil
     }
     
-    func getData(type: TypeSectionHome) async throws -> Data? {
+    func getData(type: TypeSectionHome, ids: String = "") async throws -> Data? {
         let countryCode = "vn"
         
         var components = URLComponents()
@@ -205,27 +204,43 @@ class Network: NSObject {
         switch type {
         case .chart:
             components.path   = "/v1/catalog/\(countryCode)/charts"
-        case .album:
-            components.path   = "/v1/catalog/\(countryCode)/album"
+        case .artist:
+            components.path   = "/v1/catalog/vn/artists"
         case .playlist:
             components.path   = "/v1/catalog/\(countryCode)/playlists"
         case .genres:
             components.path   = "/v1/catalog/\(countryCode)/genres"
+        case .album:
+            components.path   = "/v1/catalog/\(countryCode)/albums"
+        case .search:
+            components.path   = "/v1/catalog/\(countryCode)/search"
         }
         if type == .chart {
             components.queryItems = [
                 URLQueryItem(name: "types", value: "songs,albums,playlists"),
                 URLQueryItem(name: "limit", value: "40"),
             ]
+        } else if type == .artist {
+            components.queryItems = [
+                URLQueryItem(name: "ids", value: "1492507625,320647796,705007874,320110262,384038714,320680503,1156866299,1065981054,159260351,890403665"),
+            ]
+        } else if type == .album {
+            components.queryItems = [
+                URLQueryItem(name: "ids", value: ids),
+            ]
+        } else if type == .search {
+            components.queryItems = [
+                URLQueryItem(name: "types", value: "songs"),
+                URLQueryItem(name: "limit", value: "20"),
+                URLQueryItem(name: "term", value: ids),
+            ]
         }
-        
         
         guard let url = components.url else {return nil}
         var request = URLRequest(url: url)
         request.setValue("Bearer \(Network.token)", forHTTPHeaderField: "Authorization")
         
         let session = URLSession.shared
-        
         
         let (data, _) = try await session.data(for: request)
         
